@@ -10,5 +10,5 @@ import java.lang.annotation.Target
 public @interface Api {
     String module()
     String description()
-    String href() default "http://www.google.com"
+    String href() default "{docs url}"
 }

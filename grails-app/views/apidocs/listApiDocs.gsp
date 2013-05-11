@@ -1,24 +1,21 @@
-
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-  <title></title>
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'apidocs.css')}" type="text/css">
 </head>
+
 <body>
-<ol class="slats">
+<dl>
     <g:each in="${endpoints}" var="module">
-        <li class="group">
-            <h3>${module.key} - Documentation:<a href="#">${module.value.href}</a></h3>
-            <h5>${module.value.description}</h5>
-
-            <g:each in="${module.value.httpVerbs}" var="verb">
-                <div>${verb.name} - ${module.value.completeUrl}</div>
-                <p>${verb.title}</p><br/>
-            </g:each>
-        </li>
+        <dt>${module.key} - (<a href="#">${module.value.href}</a>)</dt>
+        <dd>${module.value.description}</dd>
+        <g:each in="${module.value.httpVerbs}" var="verb">
+            <dd>> ${verb.name} - ${module.value.completeUrl}</dd>
+            <dd>${verb.title}</dd><br/>
+        </g:each>
     </g:each>
-</ol>
-
+</dl>
 
 </body>
 </html>
