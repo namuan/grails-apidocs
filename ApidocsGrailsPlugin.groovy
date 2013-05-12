@@ -6,7 +6,7 @@ import com.imon.apidocs.annotations.Api
 import com.imon.apidocs.annotations.ApiOperation
 import grails.web.Action
 
-class GrailsApidocsGrailsPlugin {
+class ApidocsGrailsPlugin {
     // the plugin version
     def version = "0.1"
     // the version or versions of Grails the plugin is designed for
