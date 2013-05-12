@@ -1,11 +1,57 @@
-dl dt {
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 1.2;
+html {
+    background-color: #efede8;
 }
-dl dd {
-    margin: 0 0 10px 0;
-    font-size: 14px;
-    line-height: 1.4;
-    color: #666;
+body {
+    font-family: "Droid Sans",sans-serif;
+    font-size: 0.9em;
+}
+.container {
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    width: 960px;
+}
+div.module {
+    border: 1px solid transparent;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 10 0 10 0;
+}
+div.module a {
+    text-decoration:none;
+    font-size: 0.5em;
+    font-weight: normal;
+    float: right;
+}
+div.module_description {
+    font-size: 0.5em;
+    font-weight: normal;
+}
+div.api_heading {
+    background-color: #EEF2DC;
+    border: 1px solid #D9D1A9;
+}
+span.api_method {
+    background-color: #0F6AB4;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 0.7em;
+    padding: 7px 0 4px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 70px;
+}
+span.get {
+    background-color: #6F9F66;
+}
+span.delete {
+    background-color: #D93030;
+}
+span.api_description {
+    clear: none;
+    font-size: 12px;
+    font-weight: normal;
+    float: right;
+    margin: 6px 10px 0 0;
 }
