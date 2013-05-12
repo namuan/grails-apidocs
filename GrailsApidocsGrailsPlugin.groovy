@@ -16,10 +16,9 @@ class GrailsApidocsGrailsPlugin {
             "grails-app/views/error.gsp"
     ]
 
-    // TODO Fill in these fields
     def title = "Grails Apidocs Plugin" // Headline display name of the plugin
     def author = "Nauman Leghari"
-    def authorEmail = ""
+    def authorEmail = "laghari78@yahoo.com"
     def description = '''\
 Plugin to generate REST Api documentation.
 '''
@@ -27,22 +26,13 @@ Plugin to generate REST Api documentation.
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/grails-apidocs"
 
-    // Extra (optional) plugin metadata
-
-    // License: one of 'APACHE', 'GPL2', 'GPL3'
-//    def license = "APACHE"
-
-    // Details of company behind the plugin (if there is one)
-//    def organization = [ name: "My Company", url: "http://www.my-company.com/" ]
-
-    // Any additional developers beyond the author specified above.
-//    def developers = [ [ name: "Joe Bloggs", email: "joe@bloggs.net" ]]
+    def license = "APACHE"
 
     // Location of the plugin's issue tracker.
-//    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
+    def issueManagement = [ system: "GITHUB", url: "https://github.com/namuan/grails-apidocs/issues" ]
 
     // Online location of the plugin's browseable source code.
-//    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
+    def scm = [ url: "https://github.com/namuan/grails-apidocs" ]
 
     def doWithWebDescriptor = { xml ->
         // TODO Implement additions to web.xml (optional), this event occurs before
