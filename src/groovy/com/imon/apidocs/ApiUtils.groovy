@@ -3,29 +3,40 @@ package com.imon.apidocs
 import com.imon.apidocs.annotations.Api
 import com.imon.apidocs.annotations.ApiOperation
 import grails.web.Action
+import org.codehaus.groovy.grails.commons.GrailsClassUtils
+import org.codehaus.groovy.grails.web.mapping.UrlMapping
+import org.codehaus.groovy.grails.web.mapping.UrlMappingsHolder
+
+import java.lang.reflect.Method
 
 class ApiUtils {
-    static def buildApiRegistry(applicationContext, grailsApplication) {
-        def urlMappingsHolder = applicationContext.getBean('grailsUrlMappingsHolder')
 
-        urlMappingsHolder.urlMappings.each { u ->
+    static def IGNORED_PROPERTIES = ['getMetaClass', 'getProperty', 'getProperties', 'getErrors', 'getAll',
+    'getCount', 'getValidationErrorsMap', 'getValidationSkipMap', 'getGormDynamicFinders', 'getGormPersistentEntity',
+    'getConstraints', 'getId', 'getVersion']
+
+    static def buildApiRegistry(applicationContext, grailsApplication) {
+        UrlMappingsHolder urlMappingsHolder = applicationContext.getBean('grailsUrlMappingsHolder')
+
+        urlMappingsHolder.urlMappings.each { UrlMapping u ->
             if (!u.mappingName) return
 
             def urlMappingInfo = u.match(u.urlData.urlPattern)
 
             def urlParams = urlMappingInfo.parameters.findAll { it -> !['action', 'controller'].contains(it.key) }
 
-            ApiEndpoint endpoint = new ApiEndpoint(
-                    mappingName: u.mappingName,
-                    controllerName: u.controllerName,
-                    urlPattern: u.urlData.urlPattern,
-                    urlParams: urlParams
-            )
+            ApiEndpoint endpoint = findOrCreate(u)
+
+            ApiMapping apiMapping = new ApiMapping()
+
+            apiMapping.controllerName = u.controllerName
+            apiMapping.urlPattern = u.urlData.urlPattern
+            apiMapping.urlParams = urlParams
 
             // inject params in url
-            def url = endpoint.urlPattern.replace('(*)', '%')
+            def url = apiMapping.urlPattern.replace('(*)', '%')
 
-            endpoint.completeUrl = urlParams.inject(url) { substitutedUrl, k, v ->
+            apiMapping.completeUrl = apiMapping.urlParams.inject(url) { substitutedUrl, k, v ->
                 substitutedUrl.replaceFirst('%', '{' + k + '}')
             }
 
@@ -36,10 +47,10 @@ class ApiUtils {
 
             Api apiAnnotation = controller.clazz.getAnnotation(Api)
             controller.clazz.isAnnotationPresent(Action)
-            endpoint.module = apiAnnotation.module()
-            endpoint.href = apiAnnotation.href()
-            endpoint.description = apiAnnotation.description()
-            endpoint.controllerFullName = controller.fullName
+            apiMapping.module = apiAnnotation.module()
+            apiMapping.href = apiAnnotation.href()
+            apiMapping.description = apiAnnotation.description()
+            apiMapping.controllerFullName = controller.fullName
 
             // get annotations on controller methods
             controller.clazz.methods.findAll {
@@ -58,12 +69,37 @@ class ApiUtils {
                 httpVerb.title = apiOperation.value()
                 httpVerb.notes = apiOperation.notes()
                 httpVerb.responseClass = apiOperation.responseClass()
+                httpVerb.classProperties = buildClassProperties(httpVerb.responseClass)
 
-                endpoint.httpVerbs << httpVerb
+                apiMapping.httpVerbs << httpVerb
             }
 
-            ApiRegistry.endpoints.put(endpoint.mappingName, endpoint)
+            endpoint.apiMappings << apiMapping
+
+            println "Adding endpoint: ${u.mappingName} -> ${endpoint}"
+            ApiRegistry.endpoints.put(u.mappingName, endpoint)
         }
+    }
+
+    static def findOrCreate(UrlMapping u) {
+        return ApiRegistry.endpoints.get(u.mappingName) ?: new ApiEndpoint()
+    }
+
+    static def buildClassProperties(Class clazz) {
+        if (clazz == Object.class) return null
+
+        def classProps = [:]
+        println "Class: ${clazz.name}"
+
+        clazz.properties.declaredMethods.each { Method cm ->
+            if (cm.name.startsWith("get") && cm.name.size() > "get".size() && !IGNORED_PROPERTIES.contains(cm.name)) {
+                def propertyName =  GrailsClassUtils.getPropertyForGetter(cm.name)
+                classProps << [ "${propertyName}": cm.returnType]
+            }
+
+        }
+
+        return classProps
     }
 
 }

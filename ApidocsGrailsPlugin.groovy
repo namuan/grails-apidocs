@@ -1,10 +1,4 @@
-import com.imon.apidocs.ApiEndpoint
-import com.imon.apidocs.ApiRegistry
 import com.imon.apidocs.ApiUtils
-import com.imon.apidocs.HttpVerb
-import com.imon.apidocs.annotations.Api
-import com.imon.apidocs.annotations.ApiOperation
-import grails.web.Action
 
 class ApidocsGrailsPlugin {
     // the plugin version

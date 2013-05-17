@@ -11,6 +11,11 @@ body {
     position: relative;
     width: 960px;
 }
+div.api {
+    border: 1px solid;
+    padding: 5px;
+    margin: 5px;
+}
 div.module {
     border: 1px solid transparent;
     font-size: 1.5em;
@@ -54,4 +59,11 @@ span.api_description {
     font-weight: normal;
     float: right;
     margin: 6px 10px 0 0;
+}
+div.api_request {
+    background-color: #D6D9D7;
+}
+div.api_request table {
+    font-size: 0.7em;
+    font-weight: normal;
 }

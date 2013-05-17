@@ -6,4 +6,5 @@ class HttpVerb {
     String controllerMethod
     String notes
     Class responseClass
+    Map classProperties
 }
