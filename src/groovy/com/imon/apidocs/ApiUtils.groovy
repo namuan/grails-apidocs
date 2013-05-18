@@ -76,7 +76,6 @@ class ApiUtils {
 
             endpoint.apiMappings << apiMapping
 
-            println "Adding endpoint: ${u.mappingName} -> ${endpoint}"
             ApiRegistry.endpoints.put(u.mappingName, endpoint)
         }
     }
@@ -89,14 +88,12 @@ class ApiUtils {
         if (clazz == Object.class) return null
 
         def classProps = [:]
-        println "Class: ${clazz.name}"
 
         clazz.properties.declaredMethods.each { Method cm ->
             if (cm.name.startsWith("get") && cm.name.size() > "get".size() && !IGNORED_PROPERTIES.contains(cm.name)) {
                 def propertyName =  GrailsClassUtils.getPropertyForGetter(cm.name)
                 classProps << [ "${propertyName}": cm.returnType]
             }
-
         }
 
         return classProps
