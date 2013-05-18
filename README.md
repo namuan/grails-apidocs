@@ -7,7 +7,11 @@ Plugin to generate REST Api documentation
 Installation
 =============
 
-grails install-plugin apidocs
+Add a dependency to BuildConfig.groovy:
+
+    plugins {
+        runtime ":apidocs:0.1"
+    }
 
 Usage
 ======

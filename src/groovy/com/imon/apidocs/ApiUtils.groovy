@@ -11,11 +11,11 @@ import java.lang.reflect.Method
 
 class ApiUtils {
 
-    static def IGNORED_PROPERTIES = ['getMetaClass', 'getProperty', 'getProperties', 'getErrors', 'getAll',
+    static final List IGNORED_PROPERTIES = ['getMetaClass', 'getProperty', 'getProperties', 'getErrors', 'getAll',
     'getCount', 'getValidationErrorsMap', 'getValidationSkipMap', 'getGormDynamicFinders', 'getGormPersistentEntity',
     'getConstraints', 'getId', 'getVersion']
 
-    static def buildApiRegistry(applicationContext, grailsApplication) {
+    static void buildApiRegistry(applicationContext, grailsApplication) {
         UrlMappingsHolder urlMappingsHolder = applicationContext.getBean('grailsUrlMappingsHolder')
 
         urlMappingsHolder.urlMappings.each { UrlMapping u ->
@@ -80,19 +80,19 @@ class ApiUtils {
         }
     }
 
-    static def findOrCreate(UrlMapping u) {
+    static ApiEndpoint findOrCreate(UrlMapping u) {
         return ApiRegistry.endpoints.get(u.mappingName) ?: new ApiEndpoint()
     }
 
-    static def buildClassProperties(Class clazz) {
-        if (clazz == Object.class) return null
+    static buildClassProperties(Class clazz) {
+        if (clazz == Object) return null
 
         def classProps = [:]
 
         clazz.properties.declaredMethods.each { Method cm ->
             if (cm.name.startsWith("get") && cm.name.size() > "get".size() && !IGNORED_PROPERTIES.contains(cm.name)) {
                 def propertyName =  GrailsClassUtils.getPropertyForGetter(cm.name)
-                classProps << [ "${propertyName}": cm.returnType]
+                classProps << [(propertyName): cm.returnType]
             }
         }
 
