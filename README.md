@@ -13,3 +13,4 @@ Usage
 ======
 
 See apidocs-example grails application as a sample to use this plugin
+https://github.com/namuan/apidocs-example
