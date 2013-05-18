@@ -1,63 +1,25 @@
 import com.imon.apidocs.ApiUtils
 
 class ApidocsGrailsPlugin {
-    // the plugin version
     def version = "0.1"
-    // the version or versions of Grails the plugin is designed for
     def grailsVersion = "2.0 > *"
-    // resources that are excluded from plugin packaging
-    def pluginExcludes = [
-            "grails-app/views/error.gsp"
+	 def pluginExcludes = [
+        "grails-app/**/README.txt"
     ]
-
-    def title = "Grails Apidocs Plugin" // Headline display name of the plugin
+    def title = "Grails Apidocs Plugin"
     def author = "Nauman Leghari"
     def authorEmail = "laghari78@yahoo.com"
-    def description = '''\
-Plugin to generate REST Api documentation.
-'''
+    def description = 'Plugin to generate REST Api documentation.'
 
-    // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/grails-apidocs"
 
     def license = "APACHE"
 
-    // Location of the plugin's issue tracker.
     def issueManagement = [ system: "GITHUB", url: "https://github.com/namuan/grails-apidocs/issues" ]
 
-    // Online location of the plugin's browseable source code.
     def scm = [ url: "https://github.com/namuan/grails-apidocs" ]
-
-    def doWithWebDescriptor = { xml ->
-        // TODO Implement additions to web.xml (optional), this event occurs before
-    }
-
-    def doWithSpring = {
-        // TODO Implement runtime spring config (optional)
-    }
-
-    def doWithDynamicMethods = { ctx ->
-        // TODO Implement registering dynamic methods to classes (optional)
-    }
 
     def doWithApplicationContext = { applicationContext ->
         ApiUtils.buildApiRegistry(applicationContext, application)
     }
-
-    def onChange = { event ->
-        // TODO Implement code that is executed when any artefact that this plugin is
-        // watching is modified and reloaded. The event contains: event.source,
-        // event.application, event.manager, event.ctx, and event.plugin.
-    }
-
-    def onConfigChange = { event ->
-        // TODO Implement code that is executed when the project configuration changes.
-        // The event is the same as for 'onChange'.
-    }
-
-    def onShutdown = { event ->
-        // TODO Implement code that is executed when the application shuts down (optional)
-    }
-
-
 }

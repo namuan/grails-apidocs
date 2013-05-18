@@ -10,5 +10,5 @@ class ApiMapping {
     String completeUrl
     String controllerFullName
     Map urlParams
-    List<HttpVerb> httpVerbs = new ArrayList<HttpVerb>()
+    List<HttpVerb> httpVerbs = []
 }
