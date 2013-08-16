@@ -1,5 +1,7 @@
 package com.imon.apidocs
 
+import org.codehaus.groovy.grails.validation.ConstrainedProperty
+
 class ApiMapping {
     String mappingName
     String controllerName
@@ -9,6 +11,6 @@ class ApiMapping {
     String urlPattern
     String completeUrl
     String controllerFullName
-    Map urlParams
+    ConstrainedProperty[] urlParams
     List<HttpVerb> httpVerbs = []
 }

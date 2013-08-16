@@ -23,21 +23,19 @@ class ApiUtils {
 
             def urlMappingInfo = u.match(u.urlData.urlPattern)
 
-            def urlParams = urlMappingInfo.parameters.findAll { it -> !['action', 'controller'].contains(it.key) }
-
             ApiEndpoint endpoint = findOrCreate(u)
 
-            ApiMapping apiMapping = new ApiMapping()
-
-            apiMapping.controllerName = u.controllerName
-            apiMapping.urlPattern = u.urlData.urlPattern
-            apiMapping.urlParams = urlParams
+            ApiMapping apiMapping = new ApiMapping(
+                controllerName: u.controllerName,
+                urlPattern: u.urlData.urlPattern,
+                urlParams: u.constraints
+            )
 
             // inject params in url
             def url = apiMapping.urlPattern.replace('(*)', '%')
 
-            apiMapping.completeUrl = apiMapping.urlParams.inject(url) { substitutedUrl, k, v ->
-                substitutedUrl.replaceFirst('%', '{' + k + '}')
+            apiMapping.completeUrl = apiMapping.urlParams.inject(url) { substitutedUrl, k ->
+                substitutedUrl.replaceFirst('%', '{' + k.propertyName + '}')
             }
 
             // populate registry with annotation data
