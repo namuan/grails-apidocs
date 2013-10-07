@@ -10,7 +10,7 @@ Installation
 Add a dependency to BuildConfig.groovy:
 
     plugins {
-        runtime ":apidocs:0.1"
+        runtime ":apidocs:0.2"
     }
 
 Usage
